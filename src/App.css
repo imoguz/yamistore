@@ -1,0 +1,19 @@
+.swiper-button-prev,
+.swiper-button-next {
+  position: absolute;
+  color: gray !important;
+  scale: 0.7;
+  transition: scale 0.2s, color 0.2s;
+}
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  scale: 0.8;
+  color: rgb(62, 62, 62) !important;
+}
+
+/* Aktif (Tıklanan) Ok Stili */
+.swiper-button-prev:active,
+.swiper-button-next:active {
+  scale: 0.7 !important;
+  color: black !important;
+}

@@ -1,0 +1,11 @@
+.socialIcon {
+  margin: auto;
+  scale: 1.5;
+  opacity: 0.9;
+  transition: scale 0.3s, opacity 0.3s;
+  &:hover {
+    scale: 1.7;
+    opacity: 1;
+    cursor: pointer;
+  }
+}

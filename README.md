@@ -19,19 +19,15 @@ From the moment you first enter the platform, you will encounter a simple, elega
 Yamistore is built using the following technologies and libraries:
 
 - **React**: A JavaScript library for building user interfaces.
-- **React Router DOM**: Declarative routing for React.js.
+- **TypeScript**: A superset of JavaScript that adds static types to the language.
 - **Redux Toolkit**: State management library for React.
 - **Axios**: Promise-based HTTP client for the browser and Node.js.
 - **Formik**: Form library for React.
 - **Yup**: Schema validation for JavaScript objects.
-- **Bootstrap**: Front-end framework for building responsive designs.
-- **Emotion**: Library for writing styles with JavaScript and React.
 - **React-Bootstrap**: Bootstrap components as React components.
 - **Swiper**: Modern touch slider library.
 - **React-Toastify**: Notification library for React.
 - **Sass**: CSS preprocessor.
-- **Scroll-Sync-React**: Library for synchronized scrolling.
-- **TypeScript**: A superset of JavaScript that adds static types to the language.
 - **Material-UI**: Material-UI (MUI) is a concise React UI framework for creating visually appealing and responsive interfaces.
 
 ## Features

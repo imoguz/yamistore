@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { CircularProgress, InputAdornment, Typography } from "@mui/material";
 import { Paper, Grid, Divider, Button, Box, IconButton } from "@mui/material";
+import { MenuItem, FormControl, Select } from "@mui/material";
+import { createCart, readCart, updateCart } from "../features/cartSlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useLocation, useNavigate } from "react-router-dom";
+import { createWishlist, readWishlist } from "../features/wishlistSlice";
+import { readSingleProduct } from "../features/productSlice";
+import { useAuthContext } from "../context/authContext";
 import ImagePanel from "../components/productdetail/ImagePanel";
 import Ratings from "../components/productdetail/Ratings";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -15,15 +19,9 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ProductDetailAccordion from "../components/productdetail/ProductDetails";
 import Review from "../components/productdetail/Review";
 import ProductDetailSlider from "../components/productdetail/DetailSlider";
-import { useLocation, useNavigate } from "react-router-dom";
 import Variants from "../components/productdetail/Variants";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { readSingleProduct } from "../features/productSlice";
 import ErrorPage from "./ErrorPage";
-import { useAuthContext } from "../context/authContext";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { createCart, readCart, updateCart } from "../features/cartSlice";
-import { createWishlist, readWishlist } from "../features/wishlistSlice";
 import AddCartDialog from "../components/productdetail/AddCartDialog";
 
 const ProductDetailPage = () => {
@@ -31,7 +29,6 @@ const ProductDetailPage = () => {
   const location = useLocation();
   const { userData } = useAuthContext();
   const { productId, variantId } = location?.state || {};
-
   const dispatch = useAppDispatch();
   const { product, loading, error } = useAppSelector((state) => state.products);
   const { wishlist } = useAppSelector((state) => state.wishlist);
@@ -39,16 +36,15 @@ const ProductDetailPage = () => {
     variantId ? variantId.quantity : 1
   );
   const [openDialog, setOpenDialog] = React.useState(false);
+  const [images, setImages] = React.useState<string[]>([]);
   const [selectedVariant, setSelectedVariant] =
     useState<ISelectedVariant | null>(null);
 
-  // Set the images of the product for Image Panel
-  const images: string[] = (product?.images?.map((item) => {
-    return item.url;
-  }) || []) as string[];
-
   useEffect(() => {
-    dispatch(readSingleProduct(productId));
+    const readFn = async () => {
+      await dispatch(readSingleProduct(productId));
+    };
+    readFn();
   }, [dispatch, productId]);
 
   useEffect(() => {
@@ -59,10 +55,23 @@ const ProductDetailPage = () => {
         size: variantId.size_id.name,
         colorName: variantId.color_id.name,
         stock: variantId.stock,
+        image: variantId.image_url,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
+
+  useEffect(() => {
+    // Set the images of the product for Image Panel
+    const productimage = product?.images?.map((item) => {
+      return item.url;
+    });
+    if (selectedVariant && selectedVariant.image) {
+      productimage && setImages([...productimage, selectedVariant.image]);
+    } else {
+      productimage && setImages([...productimage]);
+    }
+  }, [product, selectedVariant]);
 
   if (loading) {
     return (

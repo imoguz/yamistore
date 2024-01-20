@@ -12,7 +12,6 @@ const ImagePanel: React.FC<IImagePanelProps> = ({ images }) => {
   const [value, setValue] = React.useState(0);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("lg"));
-
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -83,8 +82,7 @@ const ImagePanel: React.FC<IImagePanelProps> = ({ images }) => {
         allowScrollButtonsMobile
         TabIndicatorProps={{
           sx: {
-            border: "1px solid gray",
-            mb: 0.5,
+            display: "none",
           },
         }}
         aria-label="Vertical tabs example"
@@ -114,8 +112,7 @@ const ImagePanel: React.FC<IImagePanelProps> = ({ images }) => {
                 sx={{
                   width: 60,
                   height: 60,
-                  opacity: 0.9,
-                  "&:hover": { opacity: 1 },
+                  boxShadow: value === index ? 1 : 0,
                 }}
               />
             }

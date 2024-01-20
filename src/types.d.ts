@@ -284,6 +284,7 @@ interface ISelectedVariant {
   color: string | null;
   colorName: string | null;
   stock: number | null;
+  image: string | null;
 }
 
 // Wishlist

@@ -34,6 +34,7 @@ const Variants: React.FC<IVariantsProps> = ({
               size: defaultVariant.size_id.name,
               colorName: defaultVariant.color_id.name,
               stock: defaultVariant.stock,
+              image: defaultVariant.image_url,
             })
           : setSelectedVariant(null);
       }
@@ -47,7 +48,6 @@ const Variants: React.FC<IVariantsProps> = ({
         item.size_id.name === size &&
         item.color_id.hex_code === selectedVariant?.color
     );
-    console.log(isColor);
     isColor?.length
       ? setSelectedVariant({
           ...selectedVariant!,
@@ -73,6 +73,7 @@ const Variants: React.FC<IVariantsProps> = ({
         color: item.color_id.hex_code,
         colorName: item.color_id.name,
         stock: item.stock,
+        image: item.image_url,
       });
   };
 

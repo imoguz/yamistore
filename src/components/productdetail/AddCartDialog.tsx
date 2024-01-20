@@ -24,6 +24,7 @@ const AddCartDialog: React.FC<IAddCartDialog> = ({
 }) => {
   const { product } = useAppSelector((state) => state.products);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const imageURL = `${process.env.REACT_APP_CLOUDINARY_BASE_URL}`;
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const handleClose = () => {
@@ -76,7 +77,7 @@ const AddCartDialog: React.FC<IAddCartDialog> = ({
             <Box>
               <CardMedia
                 sx={{ height: 110, width: 110, objectFit: "cover", mt: 0.8 }}
-                image="https://cdn.pixabay.com/photo/2018/01/01/14/21/one-3054263_640.jpg"
+                image={imageURL + selectedVariant?.image}
                 title={product?.name}
               />
             </Box>

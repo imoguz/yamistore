@@ -60,6 +60,7 @@ const productSlice = createSlice({
         readProducts.fulfilled,
         (state, action: PayloadAction<IProduct[]>) => {
           state.loading = false;
+          state.error = null;
           state.products = action.payload;
         }
       )
@@ -75,6 +76,7 @@ const productSlice = createSlice({
         readSingleProduct.fulfilled,
         (state, action: PayloadAction<IProduct>) => {
           state.loading = false;
+          state.error = null;
           state.product = action.payload;
         }
       )

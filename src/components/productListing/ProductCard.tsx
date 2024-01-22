@@ -9,11 +9,39 @@ import { useNavigate } from "react-router-dom";
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const navigate = useNavigate();
   const [imageToggle, setImageToggle] = React.useState<Boolean>(false);
+  const [hoveredColor, setHoveredColor] = React.useState<string | null>(null);
+  const imageURL = `${process.env.REACT_APP_CLOUDINARY_BASE_URL}`;
 
   const mainImages = product.images
     ?.map((image) => (image.isMainImage ? image.url : null))
     .filter((url) => url !== null);
-  const imageURL = `${process.env.REACT_APP_CLOUDINARY_BASE_URL}`;
+
+  const uniqueColors = [
+    ...new Set(
+      product.variants.map((item) => {
+        return item.color_id.hex_code;
+      })
+    ),
+  ];
+
+  const colorOptions = uniqueColors.map((color) => {
+    const variant = product.variants.find(
+      (item) => item.color_id.hex_code === color
+    );
+    return { hex_code: color, image_url: variant?.image_url };
+  });
+
+  const backgroundImage = () => {
+    if (hoveredColor) {
+      return `url(${imageURL}${hoveredColor})`;
+    } else if (mainImages.length > 1) {
+      return `url(${imageURL}${imageToggle ? mainImages[1] : mainImages[0]})`;
+    } else if (mainImages.length === 1) {
+      return `url(${imageURL + mainImages[0]})`;
+    } else {
+      return `url("/assets/noImageAvailable.jpg")`;
+    }
+  };
 
   return (
     <Card
@@ -33,12 +61,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         sx={{
           height: 300,
           width: 300,
-          backgroundImage:
-            mainImages.length > 1
-              ? `url(${imageURL}${imageToggle ? mainImages[1] : mainImages[0]})`
-              : mainImages.length === 1
-              ? `url(${imageURL + mainImages[0]})`
-              : `url("/assets/noImageAvailable.jpg")`,
+          backgroundImage: backgroundImage(),
+
           backgroundSize: "100% 100%",
           backgroundPosition: "center",
           objectFit: "cover",
@@ -49,27 +73,45 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         onMouseLeave={() => setImageToggle(false)}
       ></Box>
       <CardContent sx={{ pt: 0.5 }}>
-        {["#aa5345", "#34aa45", "#3453aa", "#efefef", "#bebe12"].map(
-          (item, index) => (
-            <SquareIcon key={index} sx={{ color: item, mb: 1 }} />
-          )
-        )}
-        <Typography variant="body2" component="span">
-          +8
-        </Typography>
+        {colorOptions.map((item, index) => (
+          <SquareIcon
+            key={index}
+            sx={{ color: item.hex_code, mb: 1 }}
+            onMouseOver={() =>
+              item.image_url && setHoveredColor(item.image_url)
+            }
+          />
+        ))}
         <Typography variant="body1" color="text.primary">
-          Cardigan
+          {product.name}
         </Typography>
-        <Typography component="span" variant="body1" color="text.primary">
-          $750
-        </Typography>
-        <Typography
-          variant="body1"
-          display="inline"
-          sx={{ color: "gray", ml: 3, textDecoration: "line-through" }}
-        >
-          $850
-        </Typography>
+        {product && (
+          <Box display="flex" gap={2}>
+            <Typography component="span" variant="body1" color="text.primary">
+              $
+              {(
+                product?.price -
+                (product && product.discount.type === "monetary"
+                  ? product.discount.amount
+                  : (product?.price * product?.discount.amount) / 100)
+              ).toFixed(2)}
+            </Typography>
+
+            <Typography
+              variant="body1"
+              display="inline"
+              sx={{ color: "gray", textDecoration: "line-through" }}
+            >
+              ${product?.price}
+            </Typography>
+
+            <Typography component="span" variant="body1" color="green">
+              {product?.discount.type === "monetary" && "$"}
+              {product?.discount.amount}
+              {product?.discount.type === "percentage" && "%"} off
+            </Typography>
+          </Box>
+        )}
       </CardContent>
       {/* <CardActions></CardActions> */}
     </Card>

@@ -43,7 +43,7 @@ interface NavDrawerProps {
 // product query
 interface IQuery {
   subcategory?: string | undefined;
-  category?: string | undefined;
+  midcategory?: string | undefined;
   topcategory: string | undefined;
 }
 

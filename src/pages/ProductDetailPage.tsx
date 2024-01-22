@@ -220,7 +220,7 @@ const ProductDetailPage = () => {
                     display="inline"
                     sx={{ color: "gray", textDecoration: "line-through" }}
                   >
-                    {product?.price}
+                    ${product?.price}
                   </Typography>
 
                   <Typography component="span" variant="body1" color="green">

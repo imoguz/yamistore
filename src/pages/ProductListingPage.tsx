@@ -16,13 +16,15 @@ const ProductListingPage = () => {
   );
 
   useEffect(() => {
+    const readFn = async (query: IQuery) => {
+      await dispatch(readProducts(query));
+    };
     const query: IQuery = {
       subcategory: childMenu,
-      category: subMenu,
+      midcategory: subMenu,
       topcategory: mainMenu,
     };
-
-    dispatch(readProducts(query));
+    readFn(query);
   }, [dispatch, mainMenu, subMenu, childMenu]);
 
   if (loading) {

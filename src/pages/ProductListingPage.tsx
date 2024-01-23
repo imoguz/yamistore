@@ -1,11 +1,11 @@
-import { Box, Grid, Pagination } from "@mui/material";
+import { Grid, Pagination } from "@mui/material";
 import { useParams } from "react-router-dom";
-import FilterAccordion from "../components/productListing/FilterAccordion";
 import { useEffect, useState } from "react";
-import LoadingSkeleton from "../components/productListing/Skeleton";
-import ProductCard from "../components/productListing/ProductCard";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { readProducts } from "../features/productSlice";
+import FilterAccordion from "../components/productListing/FilterAccordion";
+import LoadingSkeleton from "../components/productListing/Skeleton";
+import ProductCard from "../components/productListing/ProductCard";
 import ErrorPage from "./ErrorPage";
 
 const ProductListingPage = () => {
@@ -42,6 +42,7 @@ const ProductListingPage = () => {
 
   useEffect(() => {
     fetchAllProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -51,9 +52,12 @@ const ProductListingPage = () => {
 
   if (loading) {
     return (
-      <Box minHeight={500}>
-        <LoadingSkeleton />
-      </Box>
+      <Grid container spacing={2}>
+        <Grid item xs={2}></Grid>
+        <Grid item xs={10}>
+          <LoadingSkeleton />
+        </Grid>
+      </Grid>
     );
   }
   if (error) {

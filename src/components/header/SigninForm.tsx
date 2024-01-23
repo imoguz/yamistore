@@ -14,9 +14,8 @@ const SigninForm: React.FC<IAuthModal> = ({
   setOpenAuthModal,
 }) => {
   const { signin } = useAuth();
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(true);
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -75,7 +74,7 @@ const SigninForm: React.FC<IAuthModal> = ({
                   fullWidth
                   variant="outlined"
                   label="Password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? "password" : "text"}
                   name="password"
                   value={values.password}
                   onChange={handleChange}
@@ -87,7 +86,7 @@ const SigninForm: React.FC<IAuthModal> = ({
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
+                          onClick={() => setShowPassword((show) => !show)}
                           onMouseDown={handleMouseDownPassword}
                           edge="end"
                         >

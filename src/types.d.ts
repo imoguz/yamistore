@@ -44,7 +44,9 @@ interface NavDrawerProps {
 interface IQuery {
   subcategory?: string | undefined;
   midcategory?: string | undefined;
-  topcategory: string | undefined;
+  topcategory?: string | undefined;
+  page?: number;
+  limit?: number;
 }
 
 // themeContext state prop

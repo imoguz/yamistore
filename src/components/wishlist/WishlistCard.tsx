@@ -11,6 +11,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { readWishlist, deleteWishlist } from "../../features/wishlistSlice";
 import ErrorPage from "../../pages/ErrorPage";
+import { useNavigate } from "react-router-dom";
 
 interface IWishlistCardProps {
   item: IWishlist;
@@ -18,6 +19,7 @@ interface IWishlistCardProps {
 const WishlistCard: React.FC<IWishlistCardProps> = ({ item }) => {
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.wishlist);
+  const navigate = useNavigate();
 
   const defaultVariant = item.product_id.variants.find(
     (variant) => variant.isDefault
@@ -112,7 +114,16 @@ const WishlistCard: React.FC<IWishlistCardProps> = ({ item }) => {
           <Button color="success" variant="contained" size="small">
             Add to Cart
           </Button>
-          <Button color="error" variant="contained" size="small">
+          <Button
+            color="error"
+            variant="contained"
+            size="small"
+            onClick={() =>
+              navigate(`/productdetail/${item.product_id.slug}`, {
+                state: { productId: item.product_id._id },
+              })
+            }
+          >
             Product Detail
           </Button>
         </Box>

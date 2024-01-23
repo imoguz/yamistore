@@ -38,7 +38,7 @@ const AddCartDialog: React.FC<IAddCartDialog> = ({
 
       const timerId = setTimeout(() => {
         setOpenDialog(false);
-      }, 7000);
+      }, 5000);
       return () => clearTimeout(timerId);
     } else {
       setAnchorEl(null);

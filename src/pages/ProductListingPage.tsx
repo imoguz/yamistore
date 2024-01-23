@@ -1,7 +1,7 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Pagination } from "@mui/material";
 import { useParams } from "react-router-dom";
 import FilterAccordion from "../components/productListing/FilterAccordion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LoadingSkeleton from "../components/productListing/Skeleton";
 import ProductCard from "../components/productListing/ProductCard";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
@@ -11,20 +11,42 @@ import ErrorPage from "./ErrorPage";
 const ProductListingPage = () => {
   const dispatch = useAppDispatch();
   const { mainMenu, subMenu, childMenu } = useParams();
-  const { products, loading, error } = useAppSelector(
-    (state) => state.products
-  );
-
-  useEffect(() => {
-    const readFn = async (query: IQuery) => {
-      await dispatch(readProducts(query));
+  const { loading, error } = useAppSelector((state) => state.products);
+  const [productList, setProductList] = useState<IProduct[]>([]);
+  const [paginationCount, setPaginationCount] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const pageSize = 10;
+  const fetchProducts = async (page: number) => {
+    const query = {
+      subcategory: childMenu,
+      midcategory: subMenu,
+      topcategory: mainMenu,
+      page: page,
+      limit: pageSize,
     };
-    const query: IQuery = {
+    const data = await dispatch(readProducts(query));
+    setProductList(data.payload as IProduct[]);
+  };
+
+  const fetchAllProducts = async () => {
+    const query = {
       subcategory: childMenu,
       midcategory: subMenu,
       topcategory: mainMenu,
     };
-    readFn(query);
+    const data = await dispatch(readProducts(query));
+    setPaginationCount(
+      Math.ceil((data.payload as IProduct[]).length / pageSize)
+    );
+  };
+
+  useEffect(() => {
+    fetchAllProducts();
+  }, []);
+
+  useEffect(() => {
+    fetchProducts(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, mainMenu, subMenu, childMenu]);
 
   if (loading) {
@@ -37,18 +59,49 @@ const ProductListingPage = () => {
   if (error) {
     return <ErrorPage error={error} />;
   }
+
+  const handlePaginationChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    fetchProducts(value);
+    setPage(value);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <Grid container spacing={2} minHeight={"80vh"} my={1}>
-      <Grid item xs={2}>
+    <Grid container sx={{ minHeight: "100vh" }}>
+      <Grid item xs={2} sx={{ position: "sticky", top: 0 }}>
         <FilterAccordion />
       </Grid>
-      <Grid item xs={10}>
+      <Grid
+        item
+        pt={2}
+        xs={10}
+        sx={{
+          overflowY: "auto",
+          maxHeight: "100vh",
+          "&::-webkit-scrollbar": { display: "none" },
+        }}
+      >
         <Grid container spacing={2}>
-          {products?.map((product, index) => (
+          {productList?.map((product, index) => (
             <Grid key={index} item>
               <ProductCard product={product} />
             </Grid>
           ))}
+        </Grid>
+        <Grid my={3} display="flex" justifyContent="center">
+          <Pagination
+            count={paginationCount}
+            page={page}
+            variant="outlined"
+            shape="rounded"
+            onChange={handlePaginationChange}
+          />
         </Grid>
       </Grid>
     </Grid>

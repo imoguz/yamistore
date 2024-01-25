@@ -1,4 +1,4 @@
-import { Grid, Pagination } from "@mui/material";
+import { Box, Divider, Grid, Pagination, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
@@ -15,7 +15,7 @@ const ProductListingPage = () => {
   const [productList, setProductList] = useState<IProduct[]>([]);
   const [paginationCount, setPaginationCount] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
-  const pageSize = 10;
+  const pageSize = 6;
   const fetchProducts = async (page: number) => {
     const query = {
       subcategory: childMenu,
@@ -50,16 +50,6 @@ const ProductListingPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, mainMenu, subMenu, childMenu]);
 
-  if (loading) {
-    return (
-      <Grid container spacing={2}>
-        <Grid item xs={2}></Grid>
-        <Grid item xs={10}>
-          <LoadingSkeleton />
-        </Grid>
-      </Grid>
-    );
-  }
   if (error) {
     return <ErrorPage error={error} />;
   }
@@ -70,10 +60,10 @@ const ProductListingPage = () => {
   ) => {
     fetchProducts(value);
     setPage(value);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    // window.scrollTo({
+    //   top: 0,
+    //   behavior: "smooth",
+    // });
   };
 
   return (
@@ -81,6 +71,7 @@ const ProductListingPage = () => {
       <Grid item xs={2} sx={{ position: "sticky", top: 0 }}>
         <FilterAccordion />
       </Grid>
+
       <Grid
         item
         pt={2}
@@ -91,19 +82,41 @@ const ProductListingPage = () => {
           "&::-webkit-scrollbar": { display: "none" },
         }}
       >
-        <Grid container spacing={2}>
-          {productList?.map((product, index) => (
-            <Grid key={index} item>
-              <ProductCard product={product} />
-            </Grid>
-          ))}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            mx: "auto",
+            width: "97%",
+            mt: 1,
+          }}
+        >
+          <Typography variant="h5">
+            {childMenu && childMenu[0].toUpperCase() + childMenu?.slice(1)}
+          </Typography>
+          <Typography variant="h6" mr={2}>
+            Items
+          </Typography>
+        </Box>
+        <Divider sx={{ height: 0, backgroundColor: "black", mr: 2 }} />
+        <Grid container spacing={2} mt={1}>
+          {loading ? (
+            <LoadingSkeleton />
+          ) : (
+            productList?.map((product, index) => (
+              <Grid key={index} item>
+                <ProductCard product={product} />
+              </Grid>
+            ))
+          )}
         </Grid>
-        <Grid my={3} display="flex" justifyContent="center">
+        <Grid my={4} display="flex" justifyContent="center">
           <Pagination
             count={paginationCount}
             page={page}
             variant="outlined"
             shape="rounded"
+            color="primary"
             onChange={handlePaginationChange}
           />
         </Grid>

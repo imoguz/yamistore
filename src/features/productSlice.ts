@@ -8,7 +8,7 @@ interface IProductsState {
   error: string | null;
 }
 // Async thunk for get all items
-export const readProducts = createAsyncThunk<IProduct[], IQuery>(
+export const readProducts = createAsyncThunk<IProduct[], IQuery | undefined>(
   "products/readProducts",
   async (query) => {
     const { data } = await axios<IProduct[]>(

@@ -20,17 +20,20 @@ export const giftData: IGiftData[] = [
   {
     image: "/assets/mainpage/gift-forher.jpg",
     label: "Gift For Her",
-    description: "Gifts as Unique and Beautiful as She Is.",
+    description: "Cherish her with a gift as special as she is.",
+    hex_code: "#f4f4f4",
   },
   {
     image: "/assets/mainpage/gift-forhim.jpg",
     label: "Gift For Him",
-    description: "Thoughtful Presents for the Man You Love",
+    description: "Unique gifts for him, handpicked with love.",
+    hex_code: "#f6f6f6",
   },
   {
     image: "/assets/mainpage/gift-forkids.jpg",
     label: "Gift For Kids",
-    description: "Discover the perfect gifts for kids.",
+    description: "Joyful surprises for kids...",
+    hex_code: "#ffffff",
   },
 ];
 
@@ -81,72 +84,72 @@ export const popularCategories: IPopularCategories[] = [
     subCategory: "Shoes",
   },
 ];
-export const bestsellerData: IBestsellerData[] = [
-  {
-    title: "Booties",
-    image: "/assets/mainpage/bestseller/booties.jpg",
-    description:
-      "Baby booties are adorable, soft footwear designed specifically for infants. These tiny shoes provide warmth, comfort, and style for little ones",
-    price: 750,
-    discount: 10,
-  },
-  {
-    title: "Man Shoes",
-    image: "/assets/mainpage/bestseller/manshoes.jpg",
-    description:
-      "Man shoes are adorable, soft footwear designed specifically for infants. These tiny shoes provide warmth, comfort, and style for little ones",
-    price: 2750,
-    discount: 20,
-  },
-  {
-    title: "Jumper",
-    image: "/assets/mainpage/bestseller/jumper.jpg",
-    description:
-      "Stylish and comfortable jumper, perfect for adding a touch of warmth and elegance to your wardrobe.",
-    price: 950,
-    discount: 10,
-  },
-  {
-    title: "Man Belt",
-    image: "/assets/mainpage/bestseller/manbelt.jpg",
-    description:
-      "Belt are adorable, soft footwear designed specifically for infants. These tiny shoes provide warmth, comfort, and style for little ones",
-    price: 550,
-    discount: 12,
-  },
-  {
-    title: "Man Shirt",
-    image: "/assets/mainpage/bestseller/manshirt.jpg",
-    description:
-      "Shirt are adorable, soft footwear designed specifically for infants. These tiny shoes provide warmth, comfort, and style for little ones",
-    price: 650,
-    discount: 10,
-  },
-  {
-    title: "Woman Shoes",
-    image: "/assets/mainpage/bestseller/womanshoes.jpg",
-    description:
-      "Woman shoes are adorable, soft footwear designed specifically for infants. These tiny shoes provide warmth, comfort, and style for little ones",
-    price: 750,
-    discount: 10,
-  },
-  {
-    title: "Woman Knited",
-    image: "/assets/mainpage/bestseller/womanknit.jpg",
-    description:
-      "Stylish and comfortable women's knitted tops, perfect for adding a touch of warmth and elegance to your wardrobe.",
-    price: 1500,
-    discount: 15,
-  },
-  {
-    title: "Coat",
-    image: "/assets/mainpage/bestseller/girlcoat.jpg",
-    description:
-      "Stylish and comfortable women's coat, perfect for adding a touch of warmth and elegance to your wardrobe.",
-    price: 2750,
-    discount: 10,
-  },
-];
+// export const bestsellerData: IBestsellerData[] = [
+//   {
+//     title: "Booties",
+//     image: "/assets/mainpage/bestseller/booties.jpg",
+//     description:
+//       "Baby booties are adorable, soft footwear designed specifically for infants. These tiny shoes provide warmth, comfort, and style for little ones",
+//     price: 750,
+//     discount: 10,
+//   },
+//   {
+//     title: "Man Shoes",
+//     image: "/assets/mainpage/bestseller/manshoes.jpg",
+//     description:
+//       "Man shoes are adorable, soft footwear designed specifically for infants. These tiny shoes provide warmth, comfort, and style for little ones",
+//     price: 2750,
+//     discount: 20,
+//   },
+//   {
+//     title: "Jumper",
+//     image: "/assets/mainpage/bestseller/jumper.jpg",
+//     description:
+//       "Stylish and comfortable jumper, perfect for adding a touch of warmth and elegance to your wardrobe.",
+//     price: 950,
+//     discount: 10,
+//   },
+//   {
+//     title: "Man Belt",
+//     image: "/assets/mainpage/bestseller/manbelt.jpg",
+//     description:
+//       "Belt are adorable, soft footwear designed specifically for infants. These tiny shoes provide warmth, comfort, and style for little ones",
+//     price: 550,
+//     discount: 12,
+//   },
+//   {
+//     title: "Man Shirt",
+//     image: "/assets/mainpage/bestseller/manshirt.jpg",
+//     description:
+//       "Shirt are adorable, soft footwear designed specifically for infants. These tiny shoes provide warmth, comfort, and style for little ones",
+//     price: 650,
+//     discount: 10,
+//   },
+//   {
+//     title: "Woman Shoes",
+//     image: "/assets/mainpage/bestseller/womanshoes.jpg",
+//     description:
+//       "Woman shoes are adorable, soft footwear designed specifically for infants. These tiny shoes provide warmth, comfort, and style for little ones",
+//     price: 750,
+//     discount: 10,
+//   },
+//   {
+//     title: "Woman Knited",
+//     image: "/assets/mainpage/bestseller/womanknit.jpg",
+//     description:
+//       "Stylish and comfortable women's knitted tops, perfect for adding a touch of warmth and elegance to your wardrobe.",
+//     price: 1500,
+//     discount: 15,
+//   },
+//   {
+//     title: "Coat",
+//     image: "/assets/mainpage/bestseller/girlcoat.jpg",
+//     description:
+//       "Stylish and comfortable women's coat, perfect for adding a touch of warmth and elegance to your wardrobe.",
+//     price: 2750,
+//     discount: 10,
+//   },
+// ];
 
 export const footerData: IFooterData[] = [
   {

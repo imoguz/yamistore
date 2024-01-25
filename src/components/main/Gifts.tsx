@@ -1,5 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { giftData } from "../../helpers/mainPageData";
+import Button from "@mui/material/Button";
 
 const Gifts = () => {
   return (
@@ -11,9 +12,9 @@ const Gifts = () => {
       >
         Gifts
       </Typography>
-      <Grid container spacing={2} justifyContent="center">
+      <Grid container spacing={3} justifyContent="center">
         {giftData.map((item, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
+          <Grid item xs={12} sm={6} md={4} key={index} position="relative">
             <img
               src={item.image}
               alt={item.label}
@@ -23,7 +24,21 @@ const Gifts = () => {
                 objectFit: "cover",
               }}
             />
-            <Typography variant="h6">{item.description}</Typography>
+            <Box sx={{ position: "absolute", bottom: 30, px: 2 }}>
+              <Typography variant="h5" color={item.hex_code}>
+                {item.label}
+              </Typography>
+              <Typography variant="h5" color={item.hex_code} gutterBottom>
+                {item.description}
+              </Typography>
+              <Button
+                variant="contained"
+                color="error"
+                sx={{ borderRadius: 5 }}
+              >
+                Shop
+              </Button>
+            </Box>
           </Grid>
         ))}
       </Grid>

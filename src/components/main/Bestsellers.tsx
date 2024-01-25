@@ -5,18 +5,36 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Typography from "@mui/material/Typography";
-import CarouselCard from "./CarouselCard";
+import CarouselCard from "./CarouselCardPR";
 import Box from "@mui/material/Box";
-import { bestsellerData } from "../../helpers/mainPageData";
+import { useEffect } from "react";
+
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+
+import { readProducts } from "../../features/productSlice";
 
 export default function Bestsellers() {
+  const dispatch = useAppDispatch();
+  const { products, loading, error } = useAppSelector(
+    (state) => state.products
+  );
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      await dispatch(readProducts());
+    };
+
+    fetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <React.Fragment>
       <Typography variant="h5" gutterBottom>
         Bestsellers
       </Typography>
       <Swiper
-        style={{ height: 275 }}
+        style={{ height: 340 }}
         modules={[Navigation, Pagination, Autoplay, A11y]}
         spaceBetween={5}
         navigation
@@ -49,8 +67,8 @@ export default function Bestsellers() {
         // onSlideChange={() => console.log("slide change")}
       >
         <div>
-          {bestsellerData.map((item) => (
-            <SwiperSlide key={item.title}>
+          {products.map((item) => (
+            <SwiperSlide key={item._id}>
               <Box display="flex" justifyContent="center" alignItems="center">
                 <CarouselCard item={item} />
               </Box>

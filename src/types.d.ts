@@ -92,6 +92,7 @@ interface IGiftData {
   image: string;
   label: string;
   description: string;
+  hex_code: string;
 }
 // Popular categories
 interface IPopularCategories {

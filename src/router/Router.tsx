@@ -10,12 +10,14 @@ import Backdrop from "@mui/material/Backdrop";
 import ProductDetailPage from "../pages/ProductDetailPage";
 import Checkout from "../pages/Checkout";
 import Wishlist from "../pages/Wishlist";
+import { ScrollToTop } from "../helpers/ScrollToTop";
 
 const Router = () => {
   const { backdrop } = useContext(ThemeContext) || { backdrop: false };
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Header />
       <Backdrop sx={{ color: "#fff", zIndex: 5 }} open={backdrop} />
       <Routes>

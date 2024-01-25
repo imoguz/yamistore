@@ -99,6 +99,7 @@ interface IPopularCategories {
   image: string;
   category: string;
   subCategory: string;
+  path: string;
 }
 // Bestseller
 interface IBestsellerData {

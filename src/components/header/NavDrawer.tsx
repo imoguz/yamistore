@@ -4,7 +4,7 @@ import { List, ListItem, ListItemText, ListItemIcon } from "@mui/material";
 import { Box, Drawer, useMediaQuery, Typography } from "@mui/material";
 import { navMenuItems } from "../../helpers/navMenuItems";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import yamilogo from "../../assets/yamilogo.png";
+import yamilogo from "../../assets/yamilogo.jpg";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate } from "react-router-dom";

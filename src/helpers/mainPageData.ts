@@ -42,46 +42,55 @@ export const popularCategories: IPopularCategories[] = [
     image: "/assets/mainpage/popCategory/man-sneakers.jpg",
     category: "Man",
     subCategory: "Sneakers",
+    path: "women/clothing/dresses",
   },
   {
     image: "/assets/mainpage/popCategory/woman-bag.jpg",
     category: "Woman",
     subCategory: "Bag",
+    path: "women/clothing/dresses",
   },
   {
     image: "/assets/mainpage/popCategory/kids-pants.jpg",
     category: "Kids",
     subCategory: "Pants & Jeans",
+    path: "women/clothing/dresses",
   },
   {
     image: "/assets/mainpage/popCategory/baby-onesie.jpg",
     category: "Baby",
     subCategory: "Onesies",
+    path: "women/clothing/dresses",
   },
   {
     image: "/assets/mainpage/popCategory/kids-toys.jpg",
     category: "Kids",
     subCategory: "Toys",
+    path: "women/clothing/dresses",
   },
   {
     image: "/assets/mainpage/popCategory/women-jewelry.jpg",
     category: "Woman",
     subCategory: "Jewelry",
+    path: "women/clothing/dresses",
   },
   {
     image: "/assets/mainpage/popCategory/kids-sneakers.jpg",
     category: "Kids",
     subCategory: "Sneakers",
+    path: "women/clothing/dresses",
   },
   {
     image: "/assets/mainpage/popCategory/baby-sock.jpg",
     category: "Baby",
     subCategory: "Socks",
+    path: "women/clothing/dresses",
   },
   {
     image: "/assets/mainpage/popCategory/baby-shoes.jpg",
     category: "Baby",
     subCategory: "Shoes",
+    path: "women/clothing/dresses",
   },
 ];
 // export const bestsellerData: IBestsellerData[] = [

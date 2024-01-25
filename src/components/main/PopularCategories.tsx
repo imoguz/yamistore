@@ -4,8 +4,10 @@ import { Box, Typography } from "@mui/material";
 import { Navigation } from "swiper/modules";
 import "swiper/css/navigation";
 import "swiper/css";
+import { useNavigate } from "react-router-dom";
 
 const PopularCategories = () => {
+  const navigate = useNavigate();
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
@@ -44,64 +46,66 @@ const PopularCategories = () => {
         }}
       >
         <div>
-          {popularCategories.map(({ image, category, subCategory }, index) => (
-            <SwiperSlide key={index}>
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                flexDirection="column"
-              >
+          {popularCategories.map(
+            ({ image, category, subCategory, path }, index) => (
+              <SwiperSlide key={index} onClick={() => navigate(path)}>
                 <Box
-                  className="imgbox"
-                  height={150}
-                  width={150}
-                  textAlign="center"
-                  sx={{
-                    opacity: 0.8,
-                    p: 0.1,
-                    transition: "opacity 0.3s",
-                    "&:hover": {
-                      cursor: "pointer",
-                      opacity: 1,
-                    },
-                    "&:hover + .text": {
-                      opacity: 1,
-                    },
-                  }}
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  flexDirection="column"
                 >
                   <Box
-                    component="img"
-                    src={image}
-                    alt={`${category}/${subCategory}`}
+                    className="imgbox"
+                    height={150}
+                    width={150}
+                    textAlign="center"
                     sx={{
-                      width: "90%",
-                      height: "90%",
-                      objectFit: "cover",
-                      borderRadius: 50,
-                      boxShadow: 5,
+                      opacity: 0.8,
+                      p: 0.1,
+                      transition: "opacity 0.3s",
+                      "&:hover": {
+                        cursor: "pointer",
+                        opacity: 1,
+                      },
+                      "&:hover + .text": {
+                        opacity: 1,
+                      },
                     }}
-                  />
-                </Box>
-                <Box
-                  className="text"
-                  sx={{
-                    cursor: "pointer",
-                    textAlign: "center",
-                    opacity: 0.8,
-                    transition: "opacity 0.3s",
-                    "&:hover": {
+                  >
+                    <Box
+                      component="img"
+                      src={image}
+                      alt={`${category}/${subCategory}`}
+                      sx={{
+                        width: "90%",
+                        height: "90%",
+                        objectFit: "cover",
+                        borderRadius: 50,
+                        boxShadow: 5,
+                      }}
+                    />
+                  </Box>
+                  <Box
+                    className="text"
+                    sx={{
                       cursor: "pointer",
-                      opacity: 1,
-                    },
-                  }}
-                >
-                  <Typography>{category}</Typography>
-                  <Typography>{subCategory}</Typography>
+                      textAlign: "center",
+                      opacity: 0.8,
+                      transition: "opacity 0.3s",
+                      "&:hover": {
+                        cursor: "pointer",
+                        opacity: 1,
+                      },
+                    }}
+                  >
+                    <Typography>{category}</Typography>
+                    <Typography>{subCategory}</Typography>
+                  </Box>
                 </Box>
-              </Box>
-            </SwiperSlide>
-          ))}
+              </SwiperSlide>
+            )
+          )}
         </div>
       </Swiper>
     </Box>

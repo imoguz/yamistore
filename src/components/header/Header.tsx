@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Box, Button, InputBase } from "@mui/material";
 import { Badge, Tooltip, IconButton } from "@mui/material";
-import yamilogo from "../../assets/yamilogo.png";
+import yamilogo from "../../assets/yamilogo.jpg";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import SearchIcon from "@mui/icons-material/Search";
 import NavMenu from "./NavMenu";

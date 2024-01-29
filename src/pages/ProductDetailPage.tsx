@@ -130,6 +130,7 @@ const ProductDetailPage = () => {
       //sisteme giriş için sign in sayfasına yönlendir.
     }
   };
+
   return (
     <Grid container spacing={{ xs: 0, lg: 2 }} sx={{ minHeight: "60vh" }}>
       {/* Product detail scrolled left part */}

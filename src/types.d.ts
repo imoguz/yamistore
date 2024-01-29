@@ -245,6 +245,18 @@ interface IProduct {
   updatedAt: Date;
 }
 
+interface IProductData {
+  pageSize: number;
+  totalRecords: number;
+  pages: {
+    total: number;
+    previous: number | boolean;
+    current: number;
+    next: number | boolean;
+  };
+  data: IProduct[];
+}
+
 interface ProductCardProps {
   product: IProduct;
 }

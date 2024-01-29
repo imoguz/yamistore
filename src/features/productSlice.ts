@@ -8,10 +8,10 @@ interface IProductsState {
   error: string | null;
 }
 // Async thunk for get all items
-export const readProducts = createAsyncThunk<IProduct[], IQuery | undefined>(
+export const readProducts = createAsyncThunk<IProductData, IQuery | undefined>(
   "products/readProducts",
   async (query) => {
-    const { data } = await axios<IProduct[]>(
+    const { data } = await axios<IProductData>(
       process.env.REACT_APP_BASE_URL + "/products",
       {
         params: query,
@@ -58,10 +58,10 @@ const productSlice = createSlice({
       })
       .addCase(
         readProducts.fulfilled,
-        (state, action: PayloadAction<IProduct[]>) => {
+        (state, action: PayloadAction<IProductData>) => {
           state.loading = false;
           state.error = null;
-          state.products = action.payload;
+          state.products = action.payload.data;
         }
       )
       .addCase(readProducts.rejected, (state, action) => {

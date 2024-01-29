@@ -56,6 +56,7 @@ export default function Header() {
 
         <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>
           <Box
+            component="form"
             sx={{
               display: "flex",
               mx: "auto",

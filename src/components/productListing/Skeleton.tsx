@@ -16,7 +16,7 @@ export default function LoadingSkeleton() {
           <Skeleton variant="rounded" width={300} height={300} />
           <Box sx={{ display: "flex", gap: 1, mt: 2, mb: 0.5 }}>
             {[1, 2, 3, 4, 5].map((i) => (
-              <Skeleton variant="rectangular" width={20} height={20} />
+              <Skeleton key={i} variant="rectangular" width={20} height={20} />
             ))}
           </Box>
           <Skeleton variant="text" width={250} />

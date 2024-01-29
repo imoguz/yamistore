@@ -12,43 +12,26 @@ const ProductListingPage = () => {
   const dispatch = useAppDispatch();
   const { mainMenu, subMenu, childMenu } = useParams();
   const { loading, error } = useAppSelector((state) => state.products);
-  const [productList, setProductList] = useState<IProduct[]>([]);
-  const [paginationCount, setPaginationCount] = useState<number>(0);
+  const [productData, setProductData] = useState<IProductData | null>(null);
   const [page, setPage] = useState<number>(1);
-  const pageSize = 6;
-  const fetchProducts = async (page: number) => {
+  const pageSize = process.env.REACT_APP_LIMIT || 10;
+
+  useEffect(() => {
     const query = {
       subcategory: childMenu,
       midcategory: subMenu,
       topcategory: mainMenu,
       page: page,
       limit: pageSize,
+    } as IQuery;
+    const fetchProducts = async () => {
+      const data = await dispatch(readProducts(query));
+      console.log(data.payload);
+      data.payload && setProductData({ ...(data.payload as IProductData) });
     };
-    const data = await dispatch(readProducts(query));
-    setProductList(data.payload as IProduct[]);
-  };
-
-  const fetchAllProducts = async () => {
-    const query = {
-      subcategory: childMenu,
-      midcategory: subMenu,
-      topcategory: mainMenu,
-    };
-    const data = await dispatch(readProducts(query));
-    setPaginationCount(
-      Math.ceil((data.payload as IProduct[]).length / pageSize)
-    );
-  };
-
-  useEffect(() => {
-    fetchAllProducts();
+    fetchProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    fetchProducts(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, mainMenu, subMenu, childMenu]);
+  }, [dispatch, mainMenu, subMenu, childMenu, page]);
 
   if (error) {
     return <ErrorPage error={error} />;
@@ -58,12 +41,12 @@ const ProductListingPage = () => {
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
-    fetchProducts(value);
-    setPage(value);
+    if (page === value) return;
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+    setPage(value);
   };
 
   return (
@@ -103,22 +86,24 @@ const ProductListingPage = () => {
           {loading ? (
             <LoadingSkeleton />
           ) : (
-            productList?.map((product, index) => (
-              <Grid key={index} item>
+            productData?.data?.map((product, index) => (
+              <Grid key={product._id} item>
                 <ProductCard product={product} />
               </Grid>
             ))
           )}
         </Grid>
         <Grid my={4} display="flex" justifyContent="center">
-          <Pagination
-            count={paginationCount}
-            page={page}
-            variant="outlined"
-            shape="rounded"
-            color="primary"
-            onChange={handlePaginationChange}
-          />
+          {productData?.pageSize && productData?.pageSize !== 0 ? (
+            <Pagination
+              count={productData?.pages?.total}
+              page={page}
+              variant="outlined"
+              shape="rounded"
+              color="primary"
+              onChange={handlePaginationChange}
+            />
+          ) : null}
         </Grid>
       </Grid>
     </Grid>

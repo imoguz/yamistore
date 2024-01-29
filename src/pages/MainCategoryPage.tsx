@@ -13,7 +13,7 @@ import Divider from "@mui/material/Divider";
 const MainCategoryPage = () => {
   const { mainMenu } = useParams();
   const selectedMenu = navMenuItems.filter(
-    (item) => item.menuName === mainMenu
+    (item) => item.menuName.toLowerCase() === mainMenu
   );
   const navigate = useNavigate();
   return (

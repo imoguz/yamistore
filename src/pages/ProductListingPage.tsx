@@ -1,5 +1,5 @@
 import { Box, Divider, Grid, Pagination, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { readProducts } from "../features/productSlice";
@@ -10,34 +10,44 @@ import ErrorPage from "./ErrorPage";
 
 const ProductListingPage = () => {
   const dispatch = useAppDispatch();
-  const { mainMenu, subMenu, childMenu } = useParams();
   const { loading, error } = useAppSelector((state) => state.products);
   const [productData, setProductData] = useState<IProductData | null>(null);
   const [page, setPage] = useState<number>(1);
   const pageSize = process.env.REACT_APP_LIMIT || 10;
 
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category");
+  const search = searchParams.get("query") || undefined;
+
+  const [topcategory, midcategory, ...remaining] = category
+    ? category.split("-")
+    : [undefined, undefined, undefined];
+  const subcategory = remaining.length > 0 ? remaining.join("-") : undefined;
+
   useEffect(() => {
     const query = {
-      subcategory: childMenu,
-      midcategory: subMenu,
-      topcategory: mainMenu,
+      topcategory,
+      midcategory,
+      subcategory,
+      search,
       page: page,
       limit: pageSize,
     } as IQuery;
+
     const fetchProducts = async () => {
       const data = await dispatch(readProducts(query));
-      console.log(data.payload);
       data.payload && setProductData({ ...(data.payload as IProductData) });
     };
+
     fetchProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, mainMenu, subMenu, childMenu, page]);
+  }, [dispatch, topcategory, midcategory, subcategory, search, page]);
 
   if (error) {
     return <ErrorPage error={error} />;
   }
 
-  const handlePaginationChange = (
+  const handlePagination = (
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
@@ -75,7 +85,8 @@ const ProductListingPage = () => {
           }}
         >
           <Typography variant="h5">
-            {childMenu && childMenu[0].toUpperCase() + childMenu?.slice(1)}
+            {subcategory &&
+              subcategory[0].toUpperCase() + subcategory?.slice(1)}
           </Typography>
           <Typography variant="h6" mr={2}>
             Items
@@ -86,7 +97,7 @@ const ProductListingPage = () => {
           {loading ? (
             <LoadingSkeleton />
           ) : (
-            productData?.data?.map((product, index) => (
+            productData?.data?.map((product) => (
               <Grid key={product._id} item>
                 <ProductCard product={product} />
               </Grid>
@@ -101,7 +112,7 @@ const ProductListingPage = () => {
               variant="outlined"
               shape="rounded"
               color="primary"
-              onChange={handlePaginationChange}
+              onChange={handlePagination}
             />
           ) : null}
         </Grid>

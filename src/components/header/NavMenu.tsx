@@ -100,7 +100,7 @@ function NavMenu() {
                   onClick={() => {
                     setActiveMenu(null);
                     setBackdrop(false);
-                    navigate(`/${item.menuName}`);
+                    navigate(`/shop/${item.menuName.toLowerCase()}`);
                   }}
                 >
                   {item.menuName}

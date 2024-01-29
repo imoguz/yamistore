@@ -44,7 +44,7 @@ const NavDropDown: React.FC<DropDownProps> = ({
                     setActiveMenu(null);
                     setBackdrop(false);
                     navigate(
-                      `/${activeMenu.toLowerCase()}/${Object.keys(
+                      `/shop?category=${activeMenu.toLowerCase()}-${Object.keys(
                         menuItems
                       )[0].toLowerCase()}`
                     );
@@ -74,9 +74,9 @@ const NavDropDown: React.FC<DropDownProps> = ({
                           setActiveMenu(null);
                           setBackdrop(false);
                           navigate(
-                            `/${activeMenu.toLowerCase()}/${Object.keys(
+                            `/shop?category=${activeMenu.toLowerCase()}-${Object.keys(
                               menuItems
-                            )[0].toLowerCase()}/${subitem.toLowerCase()}`
+                            )[0].toLowerCase()}-${subitem.toLowerCase()}`
                           );
                         }}
                       >

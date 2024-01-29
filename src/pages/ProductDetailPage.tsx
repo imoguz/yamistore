@@ -27,9 +27,9 @@ import AddCartDialog from "../components/productdetail/AddCartDialog";
 const ProductDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch();
   const { userData } = useAuthContext();
   const { productId, variantId } = location?.state || {};
-  const dispatch = useAppDispatch();
   const { product, loading, error } = useAppSelector((state) => state.products);
   const { wishlist } = useAppSelector((state) => state.wishlist);
   const [quantity, setQuantity] = React.useState(

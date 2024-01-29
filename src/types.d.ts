@@ -40,11 +40,12 @@ interface NavDrawerProps {
   >;
 }
 
-// product query
+// product category
 interface IQuery {
   subcategory?: string | undefined;
   midcategory?: string | undefined;
   topcategory?: string | undefined;
+  search?: string | undefined;
   page?: number;
   limit?: number;
 }

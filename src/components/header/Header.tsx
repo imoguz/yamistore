@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, Box, Button, InputBase } from "@mui/material";
 import { Badge, Tooltip, IconButton } from "@mui/material";
 import yamilogo from "../../assets/yamilogo.jpg";
@@ -19,6 +19,7 @@ export default function Header() {
   const { userData } = useAuthContext();
   const { cart } = useAppSelector((state) => state.cart);
   const { wishlist } = useAppSelector((state) => state.wishlist);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   React.useEffect(() => {
     if (userData) {
@@ -26,6 +27,12 @@ export default function Header() {
       dispatch(readWishlist(userData?.user?._id));
     }
   }, [userData, dispatch]);
+
+  const handleSearchSubmit = (event: React.ChangeEvent<unknown>) => {
+    event.preventDefault();
+    navigate(`/shop?query=${searchValue}`);
+    setSearchValue("");
+  };
 
   return (
     <React.Fragment>
@@ -57,6 +64,7 @@ export default function Header() {
         <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>
           <Box
             component="form"
+            onSubmit={handleSearchSubmit}
             sx={{
               display: "flex",
               mx: "auto",
@@ -70,12 +78,15 @@ export default function Header() {
             <InputBase
               sx={{ ml: 1, flex: 1 }}
               placeholder="Search Products"
-              inputProps={{ "aria-label": "search google maps" }}
+              value={searchValue}
               type="search"
+              onChange={(event) => setSearchValue(event?.target.value)}
             />
+
             <IconButton type="submit" sx={{ p: "5px" }} aria-label="search" />
             <Button
               variant="contained"
+              type="submit"
               color="success"
               size="small"
               sx={{ mx: 0.5, my: 0.3, borderRadius: "0" }}
@@ -84,6 +95,7 @@ export default function Header() {
             </Button>
           </Box>
         </Grid>
+
         <Grid item xs={6} md={3} order={{ xs: 4, md: 3 }}>
           <Box
             sx={{

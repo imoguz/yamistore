@@ -25,12 +25,8 @@ const Router = () => {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/">
           <Route index element={<Main />} />
-          <Route path="/:mainMenu" element={<MainCategoryPage />} />
-          <Route path="/:mainMenu/:subMenu" element={<ProductListingPage />} />
-          <Route
-            path="/:mainMenu/:subMenu/:childMenu"
-            element={<ProductListingPage />}
-          />
+          <Route path="/shop/:mainMenu" element={<MainCategoryPage />} />
+          <Route path="/shop" element={<ProductListingPage />} />
         </Route>
         <Route
           path="/productdetail/:productID"

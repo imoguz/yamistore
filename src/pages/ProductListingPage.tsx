@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { readProducts } from "../features/productSlice";
-import FilterAccordion from "../components/productListing/FilterAccordion";
+import FilterPanel from "../components/productListing/FilterPanel";
 import LoadingSkeleton from "../components/productListing/Skeleton";
 import ProductCard from "../components/productListing/ProductCard";
 import ErrorPage from "./ErrorPage";
@@ -62,7 +62,7 @@ const ProductListingPage = () => {
   return (
     <Grid container sx={{ minHeight: "100vh" }}>
       <Grid item xs={2} sx={{ position: "sticky", top: 0 }}>
-        <FilterAccordion />
+        <FilterPanel />
       </Grid>
 
       <Grid
@@ -89,7 +89,7 @@ const ProductListingPage = () => {
               subcategory[0].toUpperCase() + subcategory?.slice(1)}
           </Typography>
           <Typography variant="h6" mr={2}>
-            Items
+            {productData && productData.totalRecords} Items
           </Typography>
         </Box>
         <Divider sx={{ height: 0, backgroundColor: "black", mr: 2 }} />
@@ -105,7 +105,7 @@ const ProductListingPage = () => {
           )}
         </Grid>
         <Grid my={4} display="flex" justifyContent="center">
-          {productData?.pageSize && productData?.pageSize !== 0 ? (
+          {productData?.pageSize && productData?.pageSize > 1 ? (
             <Pagination
               count={productData?.pages?.total}
               page={page}

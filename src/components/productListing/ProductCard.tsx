@@ -49,7 +49,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         minWidth: 300,
         height: 400,
         borderRadius: 0,
-        "&:hover": { cursor: "pointer" },
+        "&:hover": { cursor: "pointer", boxShadow: 4 },
       }}
       onClick={() =>
         navigate(`/productdetail/${product.slug}`, {

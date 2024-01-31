@@ -62,7 +62,7 @@ const ProductListingPage = () => {
   return (
     <Grid container sx={{ minHeight: "100vh" }}>
       <Grid item xs={2} sx={{ position: "sticky", top: 0 }}>
-        <FilterPanel />
+        <FilterPanel {...{ topcategory, midcategory, subcategory, search }} />
       </Grid>
 
       <Grid

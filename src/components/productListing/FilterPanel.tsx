@@ -4,7 +4,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Box, Divider, Grid } from "@mui/material";
+import { Box, Button, Divider, Grid } from "@mui/material";
 
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -12,29 +12,35 @@ import Checkbox from "@mui/material/Checkbox";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { readProducts } from "../../features/productSlice";
 
-interface IFilterPanel {
+interface IFilterPanelProps {
   topcategory: string | undefined;
   midcategory: string | undefined;
   subcategory: string | undefined;
   search: string | undefined;
+  selectedFilters: ISelectedFilters;
+  setSelectedFilters: React.Dispatch<React.SetStateAction<ISelectedFilters>>;
 }
-interface IFilteringOptions {
+interface IFilterOptions {
   title: string;
   options: string[] | [];
 }
-const FilterPanel: React.FC<IFilterPanel> = ({
+
+const FilterPanel: React.FC<IFilterPanelProps> = ({
   topcategory,
   midcategory,
   subcategory,
   search,
+  selectedFilters,
+  setSelectedFilters,
 }) => {
   const dispatch = useAppDispatch();
-  const { products, loading, error } = useAppSelector(
-    (state) => state.products
+  // const { loading, error } = useAppSelector((state) => state.products);
+  const [listedProducts, setListedProducts] = React.useState<IProduct[] | []>(
+    []
   );
-  const [filteringOptions, setFilteringOptions] = React.useState<
-    IFilteringOptions[]
-  >([]);
+  const [filterOptions, setFilterOptions] = React.useState<IFilterOptions[]>(
+    []
+  );
 
   React.useEffect(() => {
     const query = {
@@ -44,19 +50,20 @@ const FilterPanel: React.FC<IFilterPanel> = ({
       search,
     };
     const getProducts = async () => {
-      await dispatch(readProducts(query));
+      const data: any = await dispatch(readProducts(query));
+      data && setListedProducts(data?.payload?.data as IProduct[]);
     };
     getProducts();
   }, [dispatch, topcategory, midcategory, subcategory, search]);
 
-  const setFilterOptions = () => {
+  const filterOptionsFn = () => {
     const colors: string[] = [];
     const sizes: string[] = [];
     const brands: string[] = [];
     const discounts: string[] = [];
     let prices: number[] = [];
 
-    products.forEach((product) => {
+    listedProducts?.forEach((product) => {
       brands.push(product.brand.name);
       prices.push(product.price);
       discounts.push(product.discount.amount + "% off");
@@ -78,7 +85,7 @@ const FilterPanel: React.FC<IFilterPanel> = ({
       } else if (price >= 750 && price < 1000) {
         return "$750 - $1000";
       } else {
-        return "over $1000";
+        return "$1000 - more";
       }
     });
 
@@ -92,18 +99,39 @@ const FilterPanel: React.FC<IFilterPanel> = ({
   };
 
   React.useEffect(() => {
-    setFilteringOptions([
-      { title: "Size", options: setFilterOptions().sizes },
-      { title: "Color", options: setFilterOptions().colors },
-      { title: "Price", options: setFilterOptions().price },
-      { title: "Discount", options: setFilterOptions().discount },
-      { title: "Brand", options: setFilterOptions().brands },
+    setFilterOptions([
+      { title: "Size", options: filterOptionsFn().sizes },
+      { title: "Color", options: filterOptionsFn().colors },
+      { title: "Price", options: filterOptionsFn().price },
+      { title: "Discount", options: filterOptionsFn().discount },
+      { title: "Brand", options: filterOptionsFn().brands },
     ]);
-  }, [products]);
+  }, [listedProducts]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.checked);
-    console.log(event.target.name);
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    title: string
+  ) => {
+    setSelectedFilters({
+      ...selectedFilters,
+      [title]: event.target.checked
+        ? [...selectedFilters[title], event.target.name]
+        : [
+            ...selectedFilters[title].filter(
+              (item) => item !== event.target.name
+            ),
+          ],
+    });
+  };
+
+  const handleClearAll = () => {
+    setSelectedFilters({
+      Size: [],
+      Color: [],
+      Price: [],
+      Discount: [],
+      Brand: [],
+    });
   };
 
   return (
@@ -119,23 +147,27 @@ const FilterPanel: React.FC<IFilterPanel> = ({
         }}
       >
         <Typography variant="h6">Filters</Typography>
-        <Typography variant="body1" color="error" mr={2}>
+        <Button
+          variant="text"
+          color="error"
+          size="small"
+          sx={{ py: 0, mr: 1 }}
+          onClick={handleClearAll}
+        >
           Clear All
-        </Typography>
+        </Button>
       </Box>
       <Divider sx={{ height: 0, backgroundColor: "black", ml: 1, mr: 3 }} />
       <Grid>
-        {filteringOptions &&
-          filteringOptions.map((item) => (
+        {filterOptions &&
+          filterOptions.map((item) => (
             <Accordion
               key={item.title}
+              disableGutters
               sx={{
-                backgroundColor: "transparent",
                 boxShadow: "none",
-                border: "none",
                 width: "90%",
               }}
-              TransitionProps={{ unmountOnExit: true }}
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -158,7 +190,7 @@ const FilterPanel: React.FC<IFilterPanel> = ({
                       }}
                       control={
                         <Checkbox
-                          onChange={handleChange}
+                          onChange={(event) => handleChange(event, item.title)}
                           disableRipple
                           size="small"
                           sx={{

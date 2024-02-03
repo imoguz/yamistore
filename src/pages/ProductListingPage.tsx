@@ -14,6 +14,13 @@ const ProductListingPage = () => {
   const [productData, setProductData] = useState<IProductData | null>(null);
   const [page, setPage] = useState<number>(1);
   const pageSize = process.env.REACT_APP_LIMIT || 10;
+  const [selectedFilters, setSelectedFilters] = useState<ISelectedFilters>({
+    Color: [],
+    Size: [],
+    Price: [],
+    Discount: [],
+    Brand: [],
+  });
 
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
@@ -24,6 +31,18 @@ const ProductListingPage = () => {
     : [undefined, undefined, undefined];
   const subcategory = remaining.length > 0 ? remaining.join("-") : undefined;
 
+  const filterOptions = () => {
+    const options: ISelectedFilters = {};
+
+    for (const key in selectedFilters) {
+      if (selectedFilters[key].length > 0) {
+        options[key] = selectedFilters[key];
+      }
+    }
+
+    return options;
+  };
+
   useEffect(() => {
     const query = {
       topcategory,
@@ -32,6 +51,7 @@ const ProductListingPage = () => {
       search,
       page: page,
       limit: pageSize,
+      filteroptions: filterOptions(),
     } as IQuery;
 
     const fetchProducts = async () => {
@@ -41,7 +61,15 @@ const ProductListingPage = () => {
 
     fetchProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, topcategory, midcategory, subcategory, search, page]);
+  }, [
+    dispatch,
+    topcategory,
+    midcategory,
+    subcategory,
+    search,
+    page,
+    selectedFilters,
+  ]);
 
   if (error) {
     return <ErrorPage error={error} />;
@@ -62,7 +90,16 @@ const ProductListingPage = () => {
   return (
     <Grid container sx={{ minHeight: "100vh" }}>
       <Grid item xs={2} sx={{ position: "sticky", top: 0 }}>
-        <FilterPanel {...{ topcategory, midcategory, subcategory, search }} />
+        <FilterPanel
+          {...{
+            topcategory,
+            midcategory,
+            subcategory,
+            search,
+            selectedFilters,
+            setSelectedFilters,
+          }}
+        />
       </Grid>
 
       <Grid

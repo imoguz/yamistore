@@ -40,6 +40,10 @@ interface NavDrawerProps {
   >;
 }
 
+interface ISelectedFilters {
+  [key: string]: string[];
+}
+
 // product category
 interface IQuery {
   subcategory?: string | undefined;
@@ -48,6 +52,7 @@ interface IQuery {
   search?: string | undefined;
   page?: number;
   limit?: number;
+  filteroptions?: ISelectedFilters;
 }
 
 // themeContext state prop

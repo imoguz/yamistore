@@ -74,7 +74,7 @@ const NavDrawer: React.FC<NavDrawerProps> = ({
     if (drawerItems?.menuPath[0] === "subMenuChild") {
       setOpenDrawer(false);
       navigate(
-        `/${drawerItems.menuPath[1].toLowerCase()}/${drawerItems.menuPath[2].toLowerCase()}/${item.toLowerCase()}`
+        `/shop?category=${drawerItems.menuPath[1].toLowerCase()}-${drawerItems.menuPath[2].toLowerCase()}-${item.toLowerCase()}`
       );
     }
   };

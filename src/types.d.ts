@@ -161,16 +161,18 @@ interface IReviews {
   updatedAt: Date;
 }
 
+interface IColor {
+  _id: string;
+  name: string;
+  hex_code: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 interface IVariant {
   _id: string;
   product_id: string;
-  color_id: {
-    _id: string;
-    name: string;
-    hex_code: string;
-    createdAt: Date;
-    updatedAt: Date;
-  };
+  color_id: IColor;
   size_id: {
     _id: string;
     name: string;

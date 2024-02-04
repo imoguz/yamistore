@@ -11,6 +11,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { readProducts } from "../../features/productSlice";
+import { readColors } from "../../features/colorSlice";
 
 interface IFilterPanelProps {
   topcategory: string | undefined;
@@ -35,6 +36,7 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   // const { loading, error } = useAppSelector((state) => state.products);
+  const { colors } = useAppSelector((state) => state.color);
   const [listedProducts, setListedProducts] = React.useState<IProduct[] | []>(
     []
   );
@@ -55,6 +57,13 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
     };
     getProducts();
   }, [dispatch, topcategory, midcategory, subcategory, search]);
+
+  React.useEffect(() => {
+    const getColors = async () => {
+      await dispatch(readColors());
+    };
+    getColors();
+  }, [dispatch]);
 
   const filterOptionsFn = () => {
     const colors: string[] = [];
@@ -192,8 +201,13 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
                     <FormControlLabel
                       key={option}
                       sx={{
+                        color:
+                          colors.length > 0
+                            ? colors.find((color) => color.name === option)
+                                ?.hex_code
+                            : "black",
                         "&:hover": {
-                          color: "gray",
+                          opacity: 0.7,
                         },
                         ml: 2,
                       }}
@@ -204,6 +218,20 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
                           size="small"
                           sx={{
                             py: 0.5,
+
+                            color:
+                              colors.length > 0
+                                ? colors.find((color) => color.name === option)
+                                    ?.hex_code
+                                : "inherit",
+                            "&.Mui-checked": {
+                              color:
+                                colors.length > 0
+                                  ? colors.find(
+                                      (color) => color.name === option
+                                    )?.hex_code
+                                  : "inherit",
+                            },
                           }}
                           checked={selectedFilters[item.title].includes(option)}
                           name={option}

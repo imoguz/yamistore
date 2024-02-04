@@ -106,6 +106,7 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
       { title: "Discount", options: filterOptionsFn().discount },
       { title: "Brand", options: filterOptionsFn().brands },
     ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listedProducts]);
 
   const handleChange = (
@@ -151,7 +152,15 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
           variant="text"
           color="error"
           size="small"
-          sx={{ py: 0, mr: 1 }}
+          sx={{
+            py: 0,
+            mr: 1,
+            display: Object.values(selectedFilters).some(
+              (items) => items.length > 0
+            )
+              ? "block"
+              : "none",
+          }}
           onClick={handleClearAll}
         >
           Clear All
@@ -196,6 +205,7 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
                           sx={{
                             py: 0.5,
                           }}
+                          checked={selectedFilters[item.title].includes(option)}
                           name={option}
                         />
                       }

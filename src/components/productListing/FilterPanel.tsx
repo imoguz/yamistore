@@ -192,7 +192,7 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography> {item.title}</Typography>
+                <Typography variant="body1"> {item.title}</Typography>
               </AccordionSummary>
 
               <AccordionDetails>
@@ -201,11 +201,6 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
                     <FormControlLabel
                       key={option}
                       sx={{
-                        color:
-                          colors.length > 0
-                            ? colors.find((color) => color.name === option)
-                                ?.hex_code
-                            : "black",
                         "&:hover": {
                           opacity: 0.7,
                         },
@@ -218,7 +213,6 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
                           size="small"
                           sx={{
                             py: 0.5,
-
                             color:
                               colors.length > 0
                                 ? colors.find((color) => color.name === option)
@@ -237,7 +231,7 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
                           name={option}
                         />
                       }
-                      label={option}
+                      label={<Typography variant="body2">{option}</Typography>}
                     />
                   ))}
                 </FormGroup>

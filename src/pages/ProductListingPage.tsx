@@ -7,9 +7,16 @@ import FilterPanel from "../components/productListing/FilterPanel";
 import LoadingSkeleton from "../components/productListing/Skeleton";
 import ProductCard from "../components/productListing/ProductCard";
 import ErrorPage from "./ErrorPage";
+import SortMenu from "../components/productListing/SortMenu";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 const ProductListingPage = () => {
   const dispatch = useAppDispatch();
+  const [sortMenu, setSortMenu] = useState<ISortMenu>({
+    open: false,
+    option: "Recommended",
+  });
   const { loading, error } = useAppSelector((state) => state.products);
   const [productData, setProductData] = useState<IProductData | null>(null);
   const [page, setPage] = useState<number>(1);
@@ -89,7 +96,15 @@ const ProductListingPage = () => {
 
   return (
     <Grid container sx={{ minHeight: "100vh" }}>
-      <Grid item xs={2} sx={{ position: "sticky", top: 0 }}>
+      <Grid
+        item
+        xs={2}
+        sx={{
+          overflowY: "auto",
+          maxHeight: "100vh",
+          "&::-webkit-scrollbar": { display: "none" },
+        }}
+      >
         <FilterPanel
           {...{
             topcategory,
@@ -124,10 +139,29 @@ const ProductListingPage = () => {
           <Typography variant="h5">
             {subcategory &&
               subcategory[0].toUpperCase() + subcategory?.slice(1)}
+            <Typography component="span" variant="body1" pl={1}>
+              ({productData && productData.totalRecords} Items)
+            </Typography>
           </Typography>
-          <Typography variant="h6" mr={2}>
-            {productData && productData.totalRecords} Items
-          </Typography>
+          <Box
+            sx={{ position: "relative" }}
+            onMouseOver={() => setSortMenu({ ...sortMenu, open: true })}
+            onMouseLeave={() => setSortMenu({ ...sortMenu, open: false })}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                gap: 1,
+                alignItems: "flex-end",
+                "&:hover": { cursor: "pointer" },
+              }}
+            >
+              <Typography variant="body1">Sort By:</Typography>
+              <Typography variant="body2">{sortMenu.option}</Typography>
+              {sortMenu.open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </Box>
+            <SortMenu {...{ sortMenu, setSortMenu }} />
+          </Box>
         </Box>
         <Divider sx={{ height: 0, backgroundColor: "black", mr: 2 }} />
         <Grid container spacing={2} mt={1}>

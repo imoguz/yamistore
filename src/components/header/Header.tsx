@@ -30,7 +30,7 @@ export default function Header() {
 
   const handleSearchSubmit = (event: React.ChangeEvent<unknown>) => {
     event.preventDefault();
-    navigate(`/shop?query=${searchValue}`);
+    searchValue.trim() && navigate(`/shop?query=${searchValue}`);
     setSearchValue("");
   };
 

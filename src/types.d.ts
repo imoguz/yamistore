@@ -332,3 +332,8 @@ interface IBanner {
   createdAt: Date;
   updatedAt: Date;
 }
+
+interface ISortMenu {
+  open: boolean;
+  option: string;
+}

@@ -16,7 +16,10 @@ const ProductListingPage = () => {
   const [sortMenu, setSortMenu] = useState<ISortMenu>({
     open: false,
     option: "Featured",
+    field: "name",
+    order: 1,
   });
+
   const { loading, error } = useAppSelector((state) => state.products);
   const [productData, setProductData] = useState<IProductData | null>(null);
   const [page, setPage] = useState<number>(1);
@@ -59,7 +62,7 @@ const ProductListingPage = () => {
       page: page,
       limit: pageSize,
       filteroptions: filterOptions(),
-      sort: sortMenu.option,
+      sort: { [sortMenu.field]: sortMenu.order },
     } as IQuery;
 
     const fetchProducts = async () => {

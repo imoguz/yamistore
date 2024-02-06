@@ -7,16 +7,22 @@ interface ISortMenuProps {
   setSortMenu: React.Dispatch<React.SetStateAction<ISortMenu>>;
 }
 const SortMenu: React.FC<ISortMenuProps> = ({ sortMenu, setSortMenu }) => {
-  const sortOptions = [
-    "Featured",
-    "Newest",
-    "A - Z",
-    "Price (high to low)",
-    "Price (low to high)",
+  const sortOptions: ISortOptions[] = [
+    { title: "Featured", field: "", order: 1 },
+    { title: "Newest", field: "createdAt", order: 1 },
+    { title: "A - Z", field: "name", order: 1 },
+    { title: "Z - A", field: "name", order: -1 },
+    { title: "Price (high to low)", field: "price", order: -1 },
+    { title: "Price (low to high)", field: "price", order: 1 },
   ];
 
-  const handleSorting = (option: string) => {
-    setSortMenu({ open: false, option: option });
+  const handleSorting = (option: ISortOptions) => {
+    setSortMenu({
+      open: false,
+      option: option.title,
+      field: option.field,
+      order: option.order,
+    });
   };
   return (
     <Paper
@@ -34,7 +40,7 @@ const SortMenu: React.FC<ISortMenuProps> = ({ sortMenu, setSortMenu }) => {
     >
       {sortOptions.map((option) => (
         <Typography
-          key={option}
+          key={option.field}
           gutterBottom
           sx={{
             "&:hover": { cursor: "pointer", bgcolor: "#f4f4f4" },
@@ -43,7 +49,7 @@ const SortMenu: React.FC<ISortMenuProps> = ({ sortMenu, setSortMenu }) => {
           }}
           onClick={() => handleSorting(option)}
         >
-          <Collapse in={sortMenu.open}>{option}</Collapse>
+          <Collapse in={sortMenu.open}>{option.title}</Collapse>
         </Typography>
       ))}
     </Paper>

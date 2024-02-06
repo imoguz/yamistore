@@ -53,7 +53,7 @@ interface IQuery {
   page?: number;
   limit?: number;
   filteroptions?: ISelectedFilters;
-  sort?: string;
+  sort?: { [string]: 1 | -1 };
 }
 
 // themeContext state prop
@@ -337,4 +337,12 @@ interface IBanner {
 interface ISortMenu {
   open: boolean;
   option: string;
+  field: string;
+  order: 1 | -1;
+}
+
+interface ISortOptions {
+  title: string;
+  field: string;
+  order: 1 | -1;
 }

@@ -1,8 +1,11 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { giftData } from "../../helpers/mainPageData";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 const Gifts = () => {
+  const navigate = useNavigate();
+
   return (
     <Box>
       <Typography
@@ -35,6 +38,7 @@ const Gifts = () => {
                 variant="contained"
                 color="error"
                 sx={{ borderRadius: 5 }}
+                onClick={() => navigate(`shop/${item.path}`)}
               >
                 Shop
               </Button>

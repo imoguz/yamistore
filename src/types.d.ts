@@ -100,13 +100,14 @@ interface IGiftData {
   label: string;
   description: string;
   hex_code: string;
+  path: string;
 }
 // Popular categories
 interface IPopularCategories {
   image: string;
-  category: string;
-  subCategory: string;
-  path: string;
+  topcategory: string;
+  midcategory: string;
+  subcategory: string;
 }
 // Bestseller
 interface IBestsellerData {

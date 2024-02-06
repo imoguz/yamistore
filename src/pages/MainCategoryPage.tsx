@@ -1,5 +1,5 @@
-import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
+import { Box, Grid, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { navMenuItems } from "../helpers/navMenuItems";
 import Card from "@mui/material/Card";
@@ -16,6 +16,7 @@ const MainCategoryPage = () => {
     (item) => item.menuName.toLowerCase() === mainMenu
   );
   const navigate = useNavigate();
+
   return (
     <Box mb={3}>
       <Box px={2}>
@@ -32,8 +33,8 @@ const MainCategoryPage = () => {
       <Grid container spacing={2} my={1}>
         <Grid item xs={12} sm={2}>
           <Box ml={3}>
-            {selectedMenu[0].subMenu.subMenuItems.map((item, index) => (
-              <Box key={index}>
+            {selectedMenu[0].subMenu.subMenuItems.map((item, i) => (
+              <Box key={i}>
                 <Typography
                   variant="h6"
                   component="h6"
@@ -46,7 +47,13 @@ const MainCategoryPage = () => {
                       cursor: "pointer",
                     },
                   }}
-                  onClick={() => navigate(`/${mainMenu}/${Object.keys(item)}`)}
+                  onClick={() =>
+                    navigate(
+                      `/shop?category=${mainMenu}-${Object.keys(
+                        item
+                      )[0].toLowerCase()}`
+                    )
+                  }
                 >
                   {Object.keys(item)}
                 </Typography>
@@ -62,6 +69,13 @@ const MainCategoryPage = () => {
                         cursor: "pointer",
                       },
                     }}
+                    onClick={() =>
+                      navigate(
+                        `/shop?category=${mainMenu}-${Object.keys(
+                          item
+                        )[0].toLowerCase()}-${submenu.toLowerCase()}`
+                      )
+                    }
                   >
                     {submenu}
                   </Typography>
@@ -98,6 +112,13 @@ const MainCategoryPage = () => {
                       variant="contained"
                       color="error"
                       startIcon={<ShoppingCartIcon />}
+                      onClick={() =>
+                        navigate(
+                          `/shop?category=${mainMenu}-${Object.keys(
+                            item
+                          )[0].toLowerCase()}`
+                        )
+                      }
                     >
                       Shop Now
                     </Button>

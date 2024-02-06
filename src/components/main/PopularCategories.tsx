@@ -47,8 +47,15 @@ const PopularCategories = () => {
       >
         <div>
           {popularCategories.map(
-            ({ image, category, subCategory, path }, index) => (
-              <SwiperSlide key={index} onClick={() => navigate(path)}>
+            ({ image, topcategory, midcategory, subcategory }, index) => (
+              <SwiperSlide
+                key={index}
+                onClick={() =>
+                  navigate(
+                    `/shop?category=${topcategory.toLowerCase()}-${midcategory.toLowerCase()}-${subcategory.toLowerCase()}`
+                  )
+                }
+              >
                 <Box
                   display="flex"
                   justifyContent="center"
@@ -76,7 +83,7 @@ const PopularCategories = () => {
                     <Box
                       component="img"
                       src={image}
-                      alt={`${category}/${subCategory}`}
+                      alt={`${topcategory}/${subcategory}`}
                       sx={{
                         width: "90%",
                         height: "90%",
@@ -99,8 +106,8 @@ const PopularCategories = () => {
                       },
                     }}
                   >
-                    <Typography>{category}</Typography>
-                    <Typography>{subCategory}</Typography>
+                    <Typography>{topcategory}</Typography>
+                    <Typography>{subcategory}</Typography>
                   </Box>
                 </Box>
               </SwiperSlide>

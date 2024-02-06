@@ -38,9 +38,9 @@ const SortMenu: React.FC<ISortMenuProps> = ({ sortMenu, setSortMenu }) => {
         display: sortMenu.open ? "block" : "none",
       }}
     >
-      {sortOptions.map((option) => (
+      {sortOptions.map((option, index) => (
         <Typography
-          key={option.field}
+          key={index}
           gutterBottom
           sx={{
             "&:hover": { cursor: "pointer", bgcolor: "#f4f4f4" },

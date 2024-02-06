@@ -15,7 +15,7 @@ const ProductListingPage = () => {
   const dispatch = useAppDispatch();
   const [sortMenu, setSortMenu] = useState<ISortMenu>({
     open: false,
-    option: "Recommended",
+    option: "Featured",
   });
   const { loading, error } = useAppSelector((state) => state.products);
   const [productData, setProductData] = useState<IProductData | null>(null);
@@ -59,6 +59,7 @@ const ProductListingPage = () => {
       page: page,
       limit: pageSize,
       filteroptions: filterOptions(),
+      sort: sortMenu.option,
     } as IQuery;
 
     const fetchProducts = async () => {
@@ -76,6 +77,7 @@ const ProductListingPage = () => {
     search,
     page,
     selectedFilters,
+    sortMenu.option,
   ]);
 
   if (error) {
@@ -144,7 +146,13 @@ const ProductListingPage = () => {
             </Typography>
           </Typography>
           <Box
-            sx={{ position: "relative" }}
+            sx={{
+              position: "relative",
+              width: 220,
+              display: "flex",
+              justifyContent: "right",
+              alignItems: "center",
+            }}
             onMouseOver={() => setSortMenu({ ...sortMenu, open: true })}
             onMouseLeave={() => setSortMenu({ ...sortMenu, open: false })}
           >
@@ -156,11 +164,11 @@ const ProductListingPage = () => {
                 "&:hover": { cursor: "pointer" },
               }}
             >
-              <Typography variant="body1">Sort By:</Typography>
+              <Typography variant="body1">Sort by:</Typography>
               <Typography variant="body2">{sortMenu.option}</Typography>
               {sortMenu.open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
             </Box>
-            <SortMenu {...{ sortMenu, setSortMenu }} />
+            <SortMenu {...{ sortMenu, setSortMenu }} />{" "}
           </Box>
         </Box>
         <Divider sx={{ height: 0, backgroundColor: "black", mr: 2 }} />

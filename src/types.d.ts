@@ -53,6 +53,7 @@ interface IQuery {
   page?: number;
   limit?: number;
   filteroptions?: ISelectedFilters;
+  sort?: string;
 }
 
 // themeContext state prop

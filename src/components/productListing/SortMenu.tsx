@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Box, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
-import { exit } from "process";
 
 interface ISortMenuProps {
   sortMenu: ISortMenu;
@@ -9,32 +8,29 @@ interface ISortMenuProps {
 }
 const SortMenu: React.FC<ISortMenuProps> = ({ sortMenu, setSortMenu }) => {
   const sortOptions = [
-    "Recommended",
+    "Featured",
     "Newest",
     "A - Z",
-    "Price: Hight to Low",
-    "Price: Low to Hight",
+    "Price (high to low)",
+    "Price (low to high)",
   ];
-
-  const boxStyle = {
-    bgcolor: "white",
-    boxShadow: 2,
-    position: "absolute",
-    pt: 0.7,
-    zIndex: 10,
-    width: "100%",
-  };
 
   const handleSorting = (option: string) => {
     setSortMenu({ open: false, option: option });
   };
   return (
-    <Box
-      sx={
-        sortMenu.open
-          ? boxStyle
-          : { position: "absolute", zIndex: 10, width: "100%" }
-      }
+    <Paper
+      sx={{
+        bgcolor: "white",
+        boxShadow: 3,
+        position: "absolute",
+        pt: 0.7,
+        right: 1,
+        top: 32,
+        zIndex: 10,
+        width: "250",
+        display: sortMenu.open ? "block" : "none",
+      }}
     >
       {sortOptions.map((option) => (
         <Typography
@@ -47,12 +43,10 @@ const SortMenu: React.FC<ISortMenuProps> = ({ sortMenu, setSortMenu }) => {
           }}
           onClick={() => handleSorting(option)}
         >
-          <Collapse in={sortMenu.open} timeout={{ enter: 200, exit: 0 }}>
-            {option}
-          </Collapse>
+          <Collapse in={sortMenu.open}>{option}</Collapse>
         </Typography>
       ))}
-    </Box>
+    </Paper>
   );
 };
 

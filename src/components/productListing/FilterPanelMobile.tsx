@@ -208,10 +208,24 @@ const FilterPanelMobile: React.FC<IFilterPanelMobileProps> = ({
               Filter
             </Typography>
             <Box>
-              <Button autoFocus color="inherit" onClick={handleClearAll}>
+              <Button
+                color="inherit"
+                sx={{
+                  textShadow: "2px 2px 15px rgba(128, 0, 0, 1)",
+                  "&:hover": { borderRadius: 5 },
+                }}
+                onClick={handleClearAll}
+              >
                 Clear All
               </Button>
-              <Button autoFocus color="inherit" onClick={handleApplyFilters}>
+              <Button
+                color="inherit"
+                onClick={handleApplyFilters}
+                sx={{
+                  textShadow: "2px 2px 15px rgba(128, 0, 0, 1)",
+                  "&:hover": { borderRadius: 5 },
+                }}
+              >
                 Apply
               </Button>
             </Box>

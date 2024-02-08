@@ -46,8 +46,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <Card
       sx={{
-        minWidth: 300,
-        height: 400,
+        width: { xs: `calc(92vw / 2)`, sm: 280, md: 280 },
+        height: { xs: 330, sm: 380, md: 400 },
         borderRadius: 0,
         "&:hover": { cursor: "pointer", boxShadow: 4 },
       }}
@@ -59,10 +59,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     >
       <Box
         sx={{
-          height: 300,
-          width: 300,
+          height: { xs: 230, sm: 280, md: 300 },
+          width: { xs: `calc(95vw / 2)`, sm: 300 },
           backgroundImage: backgroundImage(),
-
           backgroundSize: "100% 100%",
           backgroundPosition: "center",
           objectFit: "cover",
@@ -73,16 +72,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         onMouseLeave={() => setImageToggle(false)}
       ></Box>
       <CardContent sx={{ pt: 0.5 }}>
-        {colorOptions.map((item, index) => (
-          <SquareIcon
-            key={index}
-            sx={{ color: item.hex_code, mb: 1 }}
-            onMouseOver={() =>
-              item.image_url && setHoveredColor(item.image_url)
-            }
-          />
-        ))}
-        <Typography variant="body1" color="text.primary">
+        {colorOptions
+          .slice(0, colorOptions.length > 4 ? 4 : colorOptions.length)
+          .map((item, index) => (
+            <SquareIcon
+              key={index}
+              sx={{ color: item.hex_code, mb: 1 }}
+              onMouseOver={() =>
+                item.image_url && setHoveredColor(item.image_url)
+              }
+            />
+          ))}
+
+        {colorOptions.length > 4 && (
+          <Typography
+            variant="caption"
+            component="span"
+            color="text.primary"
+          >{`+${colorOptions.length - 4} More`}</Typography>
+        )}
+        <Typography variant="body1" color="text.primary" noWrap>
           {product.name}
         </Typography>
         {product && (
@@ -105,7 +114,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               ${product?.price}
             </Typography>
 
-            <Typography component="span" variant="body1" color="green">
+            <Typography
+              component="span"
+              variant="body1"
+              color="green"
+              display={{ xs: "none", sm: "block" }}
+            >
               {product?.discount.type === "monetary" && "$"}
               {product?.discount.amount}
               {product?.discount.type === "percentage" && "%"} off

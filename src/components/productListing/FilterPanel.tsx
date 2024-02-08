@@ -21,6 +21,7 @@ interface IFilterPanelProps {
   selectedFilters: ISelectedFilters;
   setSelectedFilters: React.Dispatch<React.SetStateAction<ISelectedFilters>>;
 }
+
 interface IFilterOptions {
   title: string;
   options: string[] | [];
@@ -184,7 +185,6 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
               disableGutters
               sx={{
                 boxShadow: "none",
-                width: "90%",
               }}
             >
               <AccordionSummary
@@ -196,15 +196,15 @@ const FilterPanel: React.FC<IFilterPanelProps> = ({
               </AccordionSummary>
 
               <AccordionDetails>
-                <FormGroup>
+                <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
                   {item.options.map((option) => (
                     <FormControlLabel
                       key={option}
                       sx={{
+                        minWidth: 100,
                         "&:hover": {
                           opacity: 0.7,
                         },
-                        ml: 2,
                       }}
                       control={
                         <Checkbox

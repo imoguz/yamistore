@@ -1,4 +1,11 @@
-import { Box, Divider, Grid, Pagination, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Pagination,
+  Typography,
+} from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
@@ -10,6 +17,8 @@ import ErrorPage from "./ErrorPage";
 import SortMenu from "../components/productListing/SortMenu";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import TuneIcon from "@mui/icons-material/Tune";
+import FilterPanelMobile from "../components/productListing/FilterPanelMobile";
 
 const ProductListingPage = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +31,7 @@ const ProductListingPage = () => {
 
   const { loading, error } = useAppSelector((state) => state.products);
   const [productData, setProductData] = useState<IProductData | null>(null);
+  const [openFilter, setOpenFilter] = useState(false);
   const [page, setPage] = useState<number>(1);
   const pageSize = process.env.REACT_APP_LIMIT || 10;
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilters>({
@@ -100,14 +110,16 @@ const ProductListingPage = () => {
   };
 
   return (
-    <Grid container sx={{ minHeight: "100vh" }}>
+    <Grid
+      container
+      sx={{ minHeight: "100vh", display: "flex", flexDirection: "row" }}
+    >
       <Grid
         item
-        xs={2}
         sx={{
-          overflowY: "auto",
-          maxHeight: "100vh",
-          "&::-webkit-scrollbar": { display: "none" },
+          width: 250,
+          flexShrink: 0,
+          display: { xs: "none", sm: "none", md: "block" },
         }}
       >
         <FilterPanel
@@ -122,16 +134,7 @@ const ProductListingPage = () => {
         />
       </Grid>
 
-      <Grid
-        item
-        pt={2}
-        xs={10}
-        sx={{
-          overflowY: "auto",
-          maxHeight: "100vh",
-          "&::-webkit-scrollbar": { display: "none" },
-        }}
-      >
+      <Grid item pt={2} sx={{ flex: 1 }}>
         <Box
           sx={{
             display: "flex",
@@ -141,18 +144,23 @@ const ProductListingPage = () => {
             mt: 1,
           }}
         >
-          <Typography variant="h5">
+          <Typography variant="body1" fontSize={{ xs: 16, sm: 18 }}>
             {subcategory &&
               subcategory[0].toUpperCase() + subcategory?.slice(1)}
-            <Typography component="span" variant="body1" pl={1}>
+            <Typography
+              component="span"
+              variant="body1"
+              fontSize={{ xs: 14, sm: 16 }}
+              pl={1}
+            >
               ({productData && productData.totalRecords} Items)
             </Typography>
           </Typography>
           <Box
             sx={{
+              display: { md: "flex" },
               position: "relative",
-              width: 220,
-              display: "flex",
+              width: { xs: 185, md: 220 },
               justifyContent: "right",
               alignItems: "center",
             }}
@@ -162,25 +170,49 @@ const ProductListingPage = () => {
             <Box
               sx={{
                 display: "flex",
-                gap: 1,
-                alignItems: "flex-end",
+                justifyContent: "right",
+                alignItems: "center",
+                gap: { xs: 0.5, md: 1 },
                 "&:hover": { cursor: "pointer" },
               }}
             >
-              <Typography variant="body1">Sort by:</Typography>
-              <Typography variant="body2">{sortMenu.option}</Typography>
-              {sortMenu.open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              <Typography variant="body1" fontSize={{ xs: 14, sm: 17 }}>
+                Sort by:
+              </Typography>
+              <Typography
+                variant="body2"
+                fontSize={{ xs: 13, sm: 14 }}
+                sx={{ color: "#414141" }}
+              >
+                {sortMenu.option}
+              </Typography>
+              {sortMenu.open ? (
+                <ExpandLessIcon sx={{ fontSize: { xs: 20, sm: 24 } }} />
+              ) : (
+                <ExpandMoreIcon sx={{ fontSize: { xs: 20, sm: 24 } }} />
+              )}
             </Box>
-            <SortMenu {...{ sortMenu, setSortMenu }} />{" "}
+            <SortMenu {...{ sortMenu, setSortMenu }} />
           </Box>
         </Box>
-        <Divider sx={{ height: 0, backgroundColor: "black", mr: 2 }} />
-        <Grid container spacing={2} mt={1}>
+        <Divider
+          sx={{ backgroundColor: "black", width: "98%", mx: "auto", mb: 1 }}
+        />
+        <Grid
+          container
+          columnSpacing={{ xs: 1 }}
+          rowSpacing={{ xs: 2 }}
+          mt={1}
+          px={0.5}
+          justifyContent="space-between"
+        >
           {loading ? (
-            <LoadingSkeleton />
+            <Grid item>
+              <LoadingSkeleton />
+            </Grid>
           ) : (
             productData?.data?.map((product) => (
-              <Grid key={product._id} item>
+              <Grid item key={product._id}>
                 <ProductCard product={product} />
               </Grid>
             ))
@@ -199,6 +231,35 @@ const ProductListingPage = () => {
           ) : null}
         </Grid>
       </Grid>
+      <Box sx={{ position: "fixed", bottom: 0, zIndex: 10 }}>
+        <Button
+          variant="contained"
+          fullWidth
+          size="small"
+          color="info"
+          sx={{
+            display: { md: "none" },
+            borderRadius: 0,
+            opacity: 0.8,
+          }}
+          startIcon={<TuneIcon />}
+          onClick={() => setOpenFilter(true)}
+        >
+          <Typography id="filter">Filter</Typography>
+        </Button>
+      </Box>
+      <FilterPanelMobile
+        {...{
+          openFilter,
+          setOpenFilter,
+          topcategory,
+          midcategory,
+          subcategory,
+          search,
+          selectedFilters,
+          setSelectedFilters,
+        }}
+      />
     </Grid>
   );
 };

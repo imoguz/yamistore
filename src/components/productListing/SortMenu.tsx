@@ -32,7 +32,7 @@ const SortMenu: React.FC<ISortMenuProps> = ({ sortMenu, setSortMenu }) => {
         position: "absolute",
         pt: 0.7,
         right: 1,
-        top: 32,
+        top: { xs: 24.5, sm: 27.5 },
         zIndex: 10,
         width: "250",
         display: sortMenu.open ? "block" : "none",

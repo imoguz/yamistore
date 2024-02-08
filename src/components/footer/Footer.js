@@ -15,7 +15,6 @@ export default function Footer() {
       display="flex"
       justifyContent="center"
       flexDirection="column"
-      id="yourFooterId"
     >
       <Box
         mx="auto"
